@@ -9,7 +9,7 @@ fastapi
 uvicorn
 pydantic
 sentence-transformers
-pinecone-client
+pinecone
 google-generativeai
 pypdf
 python-docx
