@@ -186,6 +186,8 @@ If the information is not in the context, your answer must be "Information not a
 the information is not actually there in the file that was given.For every answer that u come up with make sure u test the answers accuracy by asking youre self the same question 
 and trying to guess a new answer , compare the new answer and the old one and determine how right you were , do this trial and error tests at least 3 to 4 times before u return the answer
 
+Also , make sure you give accurate answers and do not give partialy correct answers
+
 [CONTEXT]:
 {context_str}
 
