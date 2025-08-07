@@ -212,11 +212,13 @@ Answer:"""
     def process_request(self, request: HackRxRequest) -> Dict:
         try:
             self._index_document_in_pinecone(request.documents)
+            print("get the requested doc")
             all_answers = []
             for question in request.questions:
                 query_embedding = self.embedding_model.encode([question]).tolist()
                 query_response = self.pinecone_index.query(vector=query_embedding, top_k=5, include_metadata=True)
                 retrieved_clauses = [match['metadata'] for match in query_response['matches']]
+                print("Answereing question",question,":passing to llm")
                 answer = self._llm_evaluate(question, retrieved_clauses)
                 all_answers.append(answer)
             return {"answers": all_answers}
