@@ -64,7 +64,9 @@ class DocumentProcessor:
     @classmethod
     def load_and_process_document(cls, document_url: str) -> List[Dict]:
         if document_url.startswith(('http://', 'https://')):
+            print("downloading the file")
             content = cls.download_from_blob(document_url)
+            print("download complete")
             source_name = document_url.split('/')[-1].split('?')[0]
         else:
             raise ValueError("Input must be a valid URL.")
@@ -82,10 +84,13 @@ class DocumentProcessor:
 
     @staticmethod
     def process_pdf(content: bytes) -> List[Dict]:
+        print("processing the pdf downloaded")
         reader = pypdf.PdfReader(BytesIO(content)); docs = []
+        print("processing the ",reader.pages,"pages in pdf")
         for i, page in enumerate(reader.pages):
             text = page.extract_text() or ""
             if text.strip(): docs.append({"content": text, "metadata": {"page": i + 1}})
+        print("processing complete")
         return docs
 
     @staticmethod
@@ -152,6 +157,7 @@ class DynamicRAGProcessor:
         print(f"CACHE MISS: Indexing document '{doc_url}' in Pinecone.")
         documents = DocumentProcessor.load_and_process_document(doc_url)
         from langchain.text_splitter import RecursiveCharacterTextSplitter
+        print("starting to process the document")
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=150)
         chunked_docs = []
         for doc in documents:
